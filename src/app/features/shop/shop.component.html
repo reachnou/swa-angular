@@ -1,0 +1,156 @@
+<section class="shop" [@pulseIn]>
+    <!-- Header -->
+    <header class="shop__hero">
+        <div class="hero__text">
+            <h2 class="hero__title">{{ title }}</h2>
+            <p class="hero__tag">{{ tagline }}</p>
+            <div class="hero__steps" aria-label="How it works">
+                <div class="step">
+                    <div class="step__icon">🔎</div>
+                    <div class="step__label">Discover</div>
+                </div>
+                <div class="step">
+                    <div class="step__icon">✨</div>
+                    <div class="step__label">Customize</div>
+                </div>
+                <div class="step">
+                    <div class="step__icon">🛒</div>
+                    <div class="step__label">Checkout</div>
+                </div>
+                <div class="step">
+                    <div class="step__icon">🚀</div>
+                    <div class="step__label">Delivered</div>
+                </div>
+                <div class="steps__line" aria-hidden="true"></div>
+            </div>
+        </div>
+
+        <!-- Quick Cart Button (mobile) -->
+        <button class="cart-fab" (click)="showCart = !showCart" aria-label="Toggle cart">
+            🛍️ <span class="count" *ngIf="cartCount">{{ cartCount }}</span>
+        </button>
+    </header>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="search">
+            <input type="search" [(ngModel)]="search" placeholder="Search products…" aria-label="Search products" />
+        </div>
+
+        <div class="chips" role="tablist" aria-label="Categories">
+            <button role="tab" class="chip" [class.chip--active]="activeCategory === 'All'"
+                (click)="activeCategory = 'All'">All</button>
+
+            <button role="tab" class="chip" [class.chip--active]="activeCategory === 'Digital'"
+                (click)="activeCategory = 'Digital'">Digital</button>
+
+            <button role="tab" class="chip" [class.chip--active]="activeCategory === 'Merch'"
+                (click)="activeCategory = 'Merch'">Merch</button>
+
+            <button role="tab" class="chip" [class.chip--active]="activeCategory === 'Services'"
+                (click)="activeCategory = 'Services'">Services</button>
+        </div>
+
+        <div class="sort">
+            <label>
+                <span>Sort</span>
+                <select [(ngModel)]="sortBy" aria-label="Sort products">
+                    <option value="popular">Most popular</option>
+                    <option value="price-asc">Price: Low → High</option>
+                    <option value="price-desc">Price: High → Low</option>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div class="layout">
+        <!-- Product Grid -->
+        <div class="grid" [@listStagger]>
+            <article class="card" *ngFor="let p of filtered; trackBy: trackById" [style.--hue]="p.hue"
+                [class.card--added]="p.id === justAddedId" aria-live="polite">
+                <div class="card__badge" *ngIf="p.badge">{{ p.badge }}</div>
+
+                <div class="card__media" role="img" [attr.aria-label]="p.title">
+                    <div class="blob"></div>
+                    <div class="sparkle"></div>
+                    <div class="thumb">
+                        <span class="thumb__abbr">{{ p.title.split(' ')[0] | slice:0:8 }}</span>
+                    </div>
+                </div>
+
+                <div class="card__body">
+                    <h3 class="card__title">{{ p.title }}</h3>
+                    <p class="card__sub" *ngIf="p.subtitle">{{ p.subtitle }}</p>
+
+                    <div class="rating" *ngIf="p.rating">
+                        <span class="star" *ngFor="let s of stars; let i = index"
+                            [class.star--on]="i < (p.rating || 0)">★</span>
+                        <span class="reviews" *ngIf="p.reviews">&nbsp;({{ p.reviews }})</span>
+                    </div>
+
+                    <div class="price">
+                        <span class="now">\${{ p.price }}</span>
+                        <span class="was" *ngIf="p.compareAt">\${{ p.compareAt }}</span>
+                    </div>
+                </div>
+
+                <div class="card__actions">
+                    <button class="btn btn--primary" (click)="addToCart(p)" aria-label="Add {{ p.title }} to cart">
+                        Add to cart
+                    </button>
+                    <button class="btn btn--ghost">Details</button>
+                </div>
+            </article>
+
+            <div class="empty" *ngIf="filtered.length === 0">
+                <div class="empty__icon" aria-hidden="true">🧐</div>
+                <p>No matches. Try a different search or filter.</p>
+            </div>
+        </div>
+
+        <!-- Cart Panel -->
+        <aside class="cart" [class.cart--open]="showCart || cart.length > 0" aria-label="Shopping cart">
+            <div class="cart__header">
+                <h4>Cart</h4>
+                <button class="icon-btn" (click)="showCart = false" aria-label="Close cart">✕</button>
+            </div>
+
+            <div class="cart__body" *ngIf="cart.length; else emptyCart">
+                <div class="line" *ngFor="let li of cart; trackBy: trackByCart">
+                    <div class="line__media"
+                        [style.--hue]="byId[li.productId]?.hue !== undefined ? byId[li.productId]!.hue : ((li.productId * 47) % 360)">
+                    </div>
+
+                    <div class="line__info">
+                        <div class="line__title">{{ byId[li.productId]?.title }}</div>
+                        <div class="line__meta">
+                            \${{ byId[li.productId]?.price }} × {{ li.qty }}
+                        </div>
+                        <div class="qty">
+                            <button class="qty__btn" (click)="dec(li)" aria-label="Decrease">−</button>
+                            <span class="qty__num">{{ li.qty }}</span>
+                            <button class="qty__btn" (click)="inc(li)" aria-label="Increase">+</button>
+                        </div>
+                    </div>
+
+                    <button class="icon-btn" (click)="remove(li)" aria-label="Remove">🗑️</button>
+                </div>
+            </div>
+
+            <ng-template #emptyCart>
+                <div class="cart__empty">
+                    <div class="cart__emoji">🛍️</div>
+                    <p>Your cart is feeling lonely.</p>
+                </div>
+            </ng-template>
+
+            <div class="cart__foot">
+                <div class="total">
+                    <span>Total</span>
+                    <strong>\${{ cartTotal }}</strong>
+                </div>
+                <button class="btn btn--primary" [disabled]="!cart.length">Checkout</button>
+            </div>
+        </aside>
+    </div>
+</section>

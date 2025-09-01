@@ -1,0 +1,73 @@
+<section class="edu" [@listStagger]>
+    <div class="edu-header">
+        <h2 class="edu-title">{{ title }}</h2>
+        <div class="edu-mode" *ngIf="items?.length">
+            <button class="pill" [class.pill--active]="mode === 'timeline'" (click)="mode='timeline'">Timeline</button>
+            <button class="pill" [class.pill--active]="mode === 'cards'" (click)="mode='cards'">Cards</button>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty" *ngIf="!items || items.length === 0">
+        <div class="empty-icon" aria-hidden="true">🎓</div>
+        <p class="empty-text">Add your education to make this section shine.</p>
+    </div>
+
+    <!-- Cards view -->
+    <div class="grid" *ngIf="mode === 'cards' && items?.length">
+        <article class="edu-card" *ngFor="let e of items; trackBy: trackById">
+            <div class="edge-glow" aria-hidden="true"></div>
+
+            <div class="logo-wrap" *ngIf="e.logoUrl">
+                <img [src]="e.logoUrl" class="logo" [alt]="e.school + ' logo'" />
+            </div>
+
+            <header class="head">
+                <h3 class="school">{{ e.school }}</h3>
+                <div class="meta">
+                    <span class="degree">{{ e.degree }}</span>
+                    <span class="dot" *ngIf="e.field">•</span>
+                    <span class="field" *ngIf="e.field">{{ e.field }}</span>
+                </div>
+                <div class="submeta">
+                    <span class="range">{{ getRange(e.startDate, e.endDate) }}</span>
+                    <span class="dot" *ngIf="e.location">•</span>
+                    <span class="loc" *ngIf="e.location">{{ e.location }}</span>
+                    <span class="gpa" *ngIf="showGpa && e.gpa">GPA: {{ e.gpa }}</span>
+                </div>
+            </header>
+
+            <ul class="bullets" *ngIf="e.highlights?.length">
+                <li *ngFor="let h of e.highlights">{{ h }}</li>
+            </ul>
+        </article>
+    </div>
+
+    <!-- Timeline view -->
+    <div class="timeline" *ngIf="mode === 'timeline' && items?.length">
+        <div class="rail" aria-hidden="true"></div>
+        <article class="tl-item" *ngFor="let e of items; trackBy: trackById">
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div class="tl-card edu-card">
+                <div class="edge-glow" aria-hidden="true"></div>
+                <header class="head">
+                    <h3 class="school">{{ e.school }}</h3>
+                    <div class="meta">
+                        <span class="degree">{{ e.degree }}</span>
+                        <span class="dot" *ngIf="e.field">•</span>
+                        <span class="field" *ngIf="e.field">{{ e.field }}</span>
+                    </div>
+                    <div class="submeta">
+                        <span class="range">{{ getRange(e.startDate, e.endDate) }}</span>
+                        <span class="dot" *ngIf="e.location">•</span>
+                        <span class="loc" *ngIf="e.location">{{ e.location }}</span>
+                        <span class="gpa" *ngIf="showGpa && e.gpa">GPA: {{ e.gpa }}</span>
+                    </div>
+                </header>
+                <ul class="bullets" *ngIf="e.highlights?.length">
+                    <li *ngFor="let h of e.highlights">{{ h }}</li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</section>

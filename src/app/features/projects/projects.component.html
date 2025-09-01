@@ -1,0 +1,51 @@
+<section class="wrap" aria-labelledby="grid-heading">
+    <div class="header">
+        <h2 id="grid-heading" class="title">{{ heading }}</h2>
+        <p class="sub">{{ subheading }}</p>
+    </div>
+
+
+    <div class="grid">
+        <article *ngFor="let p of projects;" class="card" [class.card--highlight]="p.highlight" tabindex="0"
+            aria-label="Project card for {{ p.title }}">
+
+
+            <!-- Accent gradient border -->
+            <span class="ring" aria-hidden="true"></span>
+
+
+            <!-- Media banner -->
+            <div class="banner" *ngIf="p.imageUrl">
+                <img [ngSrc]="p.imageUrl" width="1200" height="800" alt="Banner image for {{ p.title }}"
+                    loading="lazy" />
+                <!-- Overlay content on the image for a modern hero look -->
+                <div class="banner__overlay">
+                    <h3 class="name">{{ p.title }}</h3>
+                    <ul *ngIf="p.tech?.length" class="tech">
+                        <li *ngFor="let t of p.tech">{{ t }}</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="body">
+                <p class="desc">{{ p.description }}</p>
+
+
+                <ul *ngIf="p.tags?.length" class="tags" aria-label="Project tags">
+                    <li *ngFor="let tag of p.tags">{{ tag }}</li>
+                </ul>
+
+
+                <div class="actions">
+                    <a *ngIf="p.links?.live" class="btn btn--primary" [href]="p.links!.live" target="_blank"
+                        rel="noopener">Live</a>
+                    <a *ngIf="p.links?.github" class="btn btn--ghost" [href]="p.links!.github" target="_blank"
+                        rel="noopener">Code</a>
+                    <a *ngIf="p.links?.doc" class="btn btn--ghost" [href]="p.links!.doc" target="_blank"
+                        rel="noopener">Docs</a>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

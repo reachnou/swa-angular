@@ -1,0 +1,71 @@
+<section class="contact-wrap" @pageFade>
+    <!-- background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="card" @staggerIn [@pulse]="state()">
+        <header class="card__head stagger">
+            <h2 class="title">Let’s work together</h2>
+            <p class="sub">Have a question, idea, or opportunity? Drop a message—I'll reply fast.</p>
+        </header>
+
+        <!-- feedback banner -->
+        <div class="banner" *ngIf="state() !== 'idle'" [class.banner--ok]="state()==='success'"
+            [class.banner--err]="state()==='error'">
+            <span class="dot"></span>
+            {{ messageText() }}
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="form">
+            <!-- Honeypot (hidden) -->
+            <input type="text" formControlName="website" class="hp" tabindex="-1" autocomplete="off">
+
+            <div class="grid">
+                <label class="field stagger">
+                    <span class="label">Your Name</span>
+                    <input class="control" type="text" formControlName="name" placeholder="John Carter"
+                        [class.invalid]="f.name.touched && f.name.invalid">
+                    <small class="hint" *ngIf="f.name.touched && f.name.invalid">Please enter at least 2
+                        characters.</small>
+                </label>
+
+                <label class="field stagger">
+                    <span class="label">Email</span>
+                    <input class="control" type="email" formControlName="email" placeholder="you@example.com"
+                        [class.invalid]="f.email.touched && f.email.invalid">
+                    <small class="hint" *ngIf="f.email.touched && f.email.invalid">Please provide a valid email.</small>
+                </label>
+            </div>
+
+            <label class="field stagger">
+                <span class="label">Subject (optional)</span>
+                <input class="control" type="text" formControlName="subject" placeholder="Let’s build something great">
+            </label>
+
+            <label class="field stagger">
+                <span class="label">Message</span>
+                <textarea class="control area" rows="6" formControlName="message"
+                    placeholder="Tell me about your project..."
+                    [class.invalid]="f.message.touched && f.message.invalid"></textarea>
+                <small class="hint" *ngIf="f.message.touched && f.message.invalid">Please enter at least 10
+                    characters.</small>
+            </label>
+
+            <div class="actions stagger">
+                <button class="btn" type="submit" [disabled]="sending()">
+                    <span class="spinner" *ngIf="sending()"></span>
+                    <span>{{ sending() ? 'Sending...' : 'Send Message' }}</span>
+                </button>
+                <div class="mini-safe">🔒 Your info stays private.</div>
+            </div>
+        </form>
+
+        <!-- social strip -->
+        <footer class="social stagger">
+            <a href="mailto:you@example.com" aria-label="Email">✉️</a>
+            <a href="https://www.linkedin.com/in/reach-nou/" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+            <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+        </footer>
+    </div>
+</section>

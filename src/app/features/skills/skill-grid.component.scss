@@ -1,0 +1,247 @@
+:host {
+    /* Light theme tokens */
+    --bg: #f6f7fb;
+    --panel: #ffffff;
+    --panel-2: #f3f5ff;
+    --text: #0f1222;
+    --muted: #636a7b;
+    --chip: #e7e9f3;
+    --chip-active: #7a5cff;
+    --ring-track: #e8ebf8;
+
+    display: block;
+    color: var(--text);
+}
+
+.container {
+    padding: clamp(16px, 3vw, 32px);
+    background:
+        radial-gradient(700px 260px at 90% -10%, rgba(122, 92, 255, .10), transparent 65%),
+        radial-gradient(800px 300px at 15% 120%, rgba(0, 180, 255, .12), transparent 70%),
+        linear-gradient(180deg, var(--bg), var(--bg));
+    border-radius: 24px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 16px 40px rgba(16, 22, 40, .06);
+}
+
+.header {
+    display: grid;
+    gap: 10px 16px;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    margin-bottom: 18px;
+
+    @media (max-width: 780px) {
+        grid-template-columns: 1fr;
+        align-items: start;
+    }
+}
+
+.title {
+    margin: 0;
+    font-size: clamp(22px, 2.4vw, 32px);
+    letter-spacing: .2px;
+}
+
+.subtitle {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: clamp(14px, 1.4vw, 16px);
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+
+    @media (max-width: 780px) {
+        justify-content: flex-start;
+    }
+}
+
+.chip {
+    appearance: none;
+    border: 0;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--chip);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    letter-spacing: .2px;
+    cursor: pointer;
+    transition: transform .12s ease, background .2s ease, box-shadow .2s ease;
+    box-shadow: 0 0 0 0px transparent;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--chip-active);
+    }
+
+    &.chip--active {
+        background: color-mix(in oklab, var(--chip) 35%, var(--chip-active) 65%);
+        color: white;
+    }
+}
+
+/* -------- Grid Sizing (consistent cards) -------- */
+/* Max width keeps a single card from stretching across the whole container. */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: clamp(12px, 2.2vw, 18px);
+    max-width: 1100px;
+    /* <-- key for consistency */
+    margin: 0 auto;
+    justify-items: stretch;
+    /* multi-card */
+}
+
+/* Each card limits its own width, so even if only one card exists it stays neat */
+.skill-card {
+    width: min(100%, 560px);
+    margin-inline: auto;
+    /* center a single card in its grid cell */
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 14px;
+    padding: 14px;
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid rgba(16, 22, 40, .08);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(30, 40, 70, .10);
+    transition: transform .18s cubic-bezier(.2, .8, .2, 1), box-shadow .18s ease, border-color .18s ease;
+    outline: none;
+
+    &:hover,
+    &:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 36px rgba(30, 40, 70, .16);
+        border-color: rgba(16, 22, 40, .16);
+    }
+
+    @media (max-width: 520px) {
+        grid-template-columns: 72px 1fr;
+        padding: 12px;
+    }
+}
+
+/* Ring meter with color based on skill */
+.meter {
+    display: grid;
+    place-items: center;
+}
+
+.ring {
+    --size: 90px;
+    --thickness: 9px;
+    --ring-color: #6cf;
+    /* overridden inline */
+    --progress: 0%;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background:
+        conic-gradient(var(--ring-color) var(--progress), var(--ring-track) 0);
+    display: grid;
+    place-items: center;
+    position: relative;
+    transition: background 900ms cubic-bezier(.22, .61, .36, 1);
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: calc(var(--thickness) * 1);
+        background: linear-gradient(180deg, var(--panel), var(--panel-2));
+        border-radius: 50%;
+    }
+
+    .ring__inner {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+    }
+
+    .ring__value {
+        font-size: 14px;
+        color: var(--text);
+        opacity: .8;
+    }
+}
+
+.content {
+    display: grid;
+    align-content: center;
+    gap: 8px;
+}
+
+.name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .2px;
+}
+
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pill {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 999px;
+    background: #eef1ff;
+    color: var(--text);
+    border: 1px solid rgba(16, 22, 40, .08);
+}
+
+.pill--cat {
+    /* colorful category chip derived from skill hue */
+    background:
+        linear-gradient(180deg, color-mix(in oklab, white 60%, var(--pill) 40%), color-mix(in oklab, white 75%, var(--pill) 25%));
+    border-color: color-mix(in oklab, var(--pill) 20%, #0000);
+    color: #192034;
+
+    /* --pill is provided inline via [style.--pill]="hueFor(s)" */
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    --pill: #d9e7ff;
+    font-size: 11px;
+    padding: 3px 7px;
+    border-radius: 8px;
+    background: linear-gradient(180deg,
+            color-mix(in oklab, white 70%, var(--pill) 30%),
+            color-mix(in oklab, white 85%, var(--pill) 15%));
+    color: #32405b;
+    border: 1px solid rgba(16, 22, 40, .06);
+}
+
+/* Empty state */
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--muted);
+    border: 1px dashed rgba(16, 22, 40, .15);
+    border-radius: 16px;
+}
+
+.empty-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}

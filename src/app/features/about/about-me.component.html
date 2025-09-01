@@ -1,0 +1,76 @@
+<section class="about container reveal">
+    <!-- header -->
+    <header class="header">
+        <div class="avatar-wrap" *ngIf="p?.avatarUrl; else initials">
+            <img [ngSrc]="p.avatarUrl!" width="240" height="240" alt="{{ p.name }} headshot" class="avatar" priority />
+            <div class="blob"></div>
+        </div>
+
+        <ng-template #initials>
+            <div class="avatar generated">
+                {{ getInitials(p?.name, 2) }}
+                <div class="blob"></div>
+            </div>
+        </ng-template>
+
+        <div class="title">
+            <h2 class="name">{{ p.name }}</h2>
+            <p class="role">{{ p.title }}</p>
+            <p class="meta" *ngIf="p.location">📍 {{ p.location }}</p>
+
+            <div class="links" *ngIf="p.links?.length">
+                <a *ngFor="let l of p.links; trackBy: trackByIndex" class="chip" [href]="l.url" target="_blank"
+                    rel="noopener" [attr.aria-label]="l.label">
+                    <span class="chip-icon" *ngIf="l.icon && !l.icon.startsWith('<svg')">{{ l.icon }}</span>
+                    <span class="chip-icon" *ngIf="l.icon && l.icon.startsWith('<svg')" [innerHTML]="l.icon"></span>
+                    <span class="chip-text">{{ l.label }}</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- summary -->
+    <article class="summary reveal">
+        <p class="summary-text">{{ p.summary }}</p>
+    </article>
+
+    <!-- highlights -->
+    <section class="cards reveal" *ngIf="hls?.length">
+        <h3 class="section-title">Highlights</h3>
+        <div class="grid">
+            <div class="card" *ngFor="let h of hls; trackBy: trackByIndex">
+                <div class="card-accent"></div>
+                <p class="card-text">{{ h }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- details -->
+    <section class="details">
+        <div class="facts reveal" *ngIf="fcts?.length">
+            <h3 class="section-title">Quick Facts</h3>
+            <ul class="fact-list">
+                <li *ngFor="let f of fcts; trackBy: trackByIndex">
+                    <span class="fact-label">{{ f.label }}</span>
+                    <span class="fact-dot"></span>
+                    <span class="fact-value">{{ f.value }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="skills" [class.animate]="revealSkills()" *ngIf="sks?.length">
+            <h3 class="section-title">Skills</h3>
+
+            <div class="skill" *ngFor="let s of sks; trackBy: trackByIndex">
+                <div class="skill-row">
+                    <span class="skill-name">{{ s.name }}</span>
+                    <span class="skill-level">{{ s.level }}%</span>
+                </div>
+                <div class="bar">
+                    <span class="fill" [style.--to]="(s.level || 0) + '%'"
+                        [style.width]="revealSkills() ? (s.level + '%') : '0%'"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

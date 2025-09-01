@@ -1,0 +1,25 @@
+:root {
+  --brand: #7c3aed;
+  --ink: #0f172a;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, #fafafa, #f5f3ff);
+}
+
+.container-tight { max-width: 1000px; margin-inline: auto; padding: 1rem; }
+.section-title { font-weight: 800; letter-spacing: -0.02em; }
+
+.btn-brand { background: var(--brand); color: #fff; border: none; }
+.btn-brand:hover { filter: brightness(0.95); }
+
+.card { border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,.06); border: 0; }
+
+.text-gradient {
+  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}

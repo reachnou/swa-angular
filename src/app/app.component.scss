@@ -1,0 +1,29 @@
+/* Make sure the root fills the viewport and pushes the footer down */
+html,
+body {
+    height: 100%;
+}
+
+body {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+app-root,
+.site {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    /* use svh/dvh not vh on mobile */
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer,
+app-footer {
+    flex-shrink: 0;
+}

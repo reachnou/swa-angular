@@ -1,0 +1,10 @@
+<div class="container py-5" *ngIf="post as p">
+  <h1 class="display-6 fw-bold mb-3">{{ p.title }}</h1>
+  <div class="text-muted mb-4">Published {{ p.createdAt | date:'mediumDate' }}</div>
+  <img *ngIf="p.coverUrl" [src]="p.coverUrl" class="img-fluid rounded mb-4" alt="cover" />
+  <markdown [data]="p.content"></markdown>
+
+  <hr class="my-5" />
+  <h2 class="h4 mb-3">Comments</h2>
+  <app-comment-thread [root]="p.comments" [blogId]="p.id"></app-comment-thread>
+</div>

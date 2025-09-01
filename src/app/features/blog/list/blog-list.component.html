@@ -1,0 +1,23 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 m-0">Blog</h1>
+    <a class="btn btn-brand" routerLink="/blog/new">New Post</a>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5"><div class="spinner-border"></div></div>
+
+  <div class="row g-4" *ngIf="!loading">
+    <div class="col-12 col-md-6 col-lg-4" *ngFor="let b of items">
+      <a class="card h-100 text-decoration-none text-dark" [routerLink]="['/blog', b.slug]">
+        <img *ngIf="b.coverUrl" [src]="b.coverUrl" class="card-img-top" alt="cover" />
+        <div class="card-body">
+          <h2 class="h5">{{ b.title }}</h2>
+          <p class="text-muted">{{ b.excerpt }}</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span *ngFor="let t of b.tags" class="badge text-bg-light border">#{{ t }}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

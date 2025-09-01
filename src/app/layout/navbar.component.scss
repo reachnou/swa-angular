@@ -1,0 +1,57 @@
+/* Modern Navbar */
+.modern-navbar {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+}
+
+.brand-text {
+    color: #111;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: #444 !important;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #6366f1, #06b6d4);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #111 !important;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.btn-gradient {
+    background: linear-gradient(90deg, #6366f1, #06b6d4);
+    border: none;
+    color: #fff;
+    border-radius: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}

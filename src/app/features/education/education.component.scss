@@ -1,0 +1,222 @@
+:host {
+    display: block
+}
+
+/* LIGHT THEME + centered section */
+.edu {
+    --card: #ffffff;
+    --muted: #667085;
+    --text: #0b1220;
+    --ring: rgba(56, 189, 248, .9);
+    --ring2: rgba(168, 85, 247, .9);
+    --ring3: rgba(16, 185, 129, .9);
+    color: var(--text);
+    max-width: 900px;
+    /* center/narrow */
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* header + toggle */
+.edu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin: 0 0 .75rem
+}
+
+.edu-title {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: .2px;
+    color: #0b1220;
+    font-size: clamp(1.25rem, 1.2rem + 1vw, 1.6rem)
+}
+
+.edu-mode {
+    display: flex;
+    gap: .4rem
+}
+
+.pill {
+    font-size: .75rem;
+    padding: .25rem .6rem;
+    border-radius: 999px;
+    color: var(--muted);
+    border: 1px solid rgba(2, 6, 23, .12);
+    background: #fff;
+    user-select: none;
+    cursor: pointer
+}
+
+.pill--active {
+    color: #0b1220;
+    border-color: rgba(2, 6, 23, .22);
+    background: linear-gradient(90deg, rgba(56, 189, 248, .10), rgba(168, 85, 247, .10))
+}
+
+/* CARD GRID — one per row */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(.9rem, .8rem + 1vw, 1.25rem)
+}
+
+/* card */
+.edu-card {
+    position: relative;
+    background:
+        radial-gradient(180% 120% at 100% 0%, rgba(168, 85, 247, .06), transparent 38%),
+        radial-gradient(200% 140% at 0% 0%, rgba(56, 189, 248, .06), transparent 40%),
+        var(--card);
+    border: 1px solid rgba(2, 6, 23, .08);
+    border-radius: 20px;
+    padding: 1rem 1.1rem;
+    overflow: hidden;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+}
+
+.edu-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(2, 6, 23, .16);
+    box-shadow: 0 10px 24px rgba(16, 24, 40, .10);
+}
+
+/* subtle edge glow on hover */
+.edge-glow {
+    pointer-events: none;
+    position: absolute;
+    inset: -1px;
+    border-radius: 20px;
+    background: conic-gradient(from 0deg, var(--ring), var(--ring2), var(--ring3), var(--ring));
+    filter: blur(16px);
+    opacity: 0;
+    transition: opacity .25s ease
+}
+
+.edu-card:hover .edge-glow {
+    opacity: .08
+}
+
+.logo-wrap {
+    position: absolute;
+    top: .9rem;
+    right: .9rem
+}
+
+.logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    border: 1px solid rgba(2, 6, 23, .12);
+    background: #fff;
+    object-fit: cover
+}
+
+.head {
+    padding-right: 80px
+}
+
+.school {
+    margin: 0 0 .15rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: .2px;
+    color: #0b1220
+}
+
+.meta,
+.submeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem .5rem;
+    align-items: center;
+    color: var(--muted);
+    font-size: .92rem
+}
+
+.meta .degree {
+    color: #0b1220;
+    font-weight: 700
+}
+
+.dot {
+    opacity: .6
+}
+
+.gpa {
+    margin-left: auto;
+    font-size: .8rem;
+    padding: .1rem .45rem;
+    border-radius: .5rem;
+    background: rgba(16, 185, 129, .12);
+    color: #065f46;
+    border: 1px solid rgba(16, 185, 129, .28)
+}
+
+.bullets {
+    margin: .75rem 0 0;
+    padding-left: 1.15rem;
+    color: #1f2937
+}
+
+.bullets li {
+    margin: .15rem 0
+}
+
+/* TIMELINE LAYOUT */
+.timeline {
+    position: relative;
+    margin-top: .5rem
+}
+
+.timeline .rail {
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(56, 189, 248, .4), rgba(168, 85, 247, .2))
+}
+
+.tl-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: .75rem;
+    margin-bottom: 1rem
+}
+
+.tl-dot {
+    grid-column: 1;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--ring), var(--ring2));
+    border: 2px solid #fff;
+    transform: translate(12px, 10px);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, .15)
+}
+
+.tl-card {
+    grid-column: 2
+}
+
+/* mobile tweaks */
+@media (max-width:560px) {
+    .head {
+        padding-right: 0
+    }
+
+    .logo-wrap {
+        position: static;
+        margin-bottom: .6rem
+    }
+
+    .logo {
+        width: 48px;
+        height: 48px
+    }
+}

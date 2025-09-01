@@ -1,0 +1,55 @@
+<section class="skills container" [@listStagger]>
+    <header class="header">
+        <div class="titles">
+            <h2 class="title">{{ title }}</h2>
+            <p class="subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+        </div>
+
+        <div class="filters" *ngIf="showFilters && derivedCategories().length">
+            <button type="button" class="chip" [class.chip--active]="selectedCategory() === null"
+                (click)="onCategoryClick(null)" aria-pressed="{{ selectedCategory() === null }}">
+                All
+            </button>
+            <button type="button" class="chip" *ngFor="let cat of derivedCategories()"
+                [class.chip--active]="selectedCategory() === cat" (click)="onCategoryClick(cat)"
+                aria-pressed="{{ selectedCategory() === cat }}">
+                {{ cat }}
+            </button>
+        </div>
+    </header>
+
+    <!-- grid has a max-width so a single card won't stretch across the container -->
+    <div class="grid" appInViewport (visibleChange)="onObserved($event)" role="list" aria-label="Skill list">
+        <article *ngFor="let s of filtered(); trackBy: trackById" class="skill-card" role="listitem" tabindex="0"
+            [attr.aria-label]="ariaLabel(s)">
+            <div class="meter" *ngIf="showMeters">
+                <div class="ring" [style.--ring-color]="hueFor(s)"
+                    [style.--progress]="isVisible() ? progressPct(s) + '%' : '0%'" aria-hidden="true">
+                    <div class="ring__inner">
+                        <span class="ring__value">{{ s.level }}/{{ maxLevel }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <h3 class="name">{{ s.name }}</h3>
+
+                <div class="meta">
+                    <span class="pill pill--cat" [style.--pill]="hueFor(s)" *ngIf="s.category">{{ s.category }}</span>
+                    <span class="pill pill--years" *ngIf="showYears && s.years !== undefined">
+                        {{ s.years }} {{ s.years === 1 ? 'yr' : 'yrs' }}
+                    </span>
+                </div>
+
+                <div class="tags" *ngIf="s.keywords?.length">
+                    <span class="tag" [style.--pill]="hueFor(s)" *ngFor="let k of s.keywords">{{ k }}</span>
+                </div>
+            </div>
+        </article>
+
+        <div class="empty" *ngIf="filtered().length === 0">
+            <div class="empty-icon" aria-hidden="true">✨</div>
+            <p class="empty-text">No skills match this filter.</p>
+        </div>
+    </div>
+</section>

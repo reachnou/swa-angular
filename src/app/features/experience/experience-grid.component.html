@@ -1,0 +1,49 @@
+<section class="xp-wrapper">
+    <header class="xp-head">
+        <h2 class="title">Experience</h2>
+        <p class="subtitle">A quick tour through my recent roles & wins.</p>
+    </header>
+
+    <div class="xp-grid">
+        <article class="xp-card" *ngFor="let x of experiences; trackBy: trackById; let i = index" revealOnScroll
+            [revealDelay]="i * 0.08">
+            <div class="xp-card__header">
+                <img *ngIf="x.logoUrl" class="logo" [src]="x.logoUrl" [alt]="x.company + ' logo'" loading="lazy"
+                    width="40" height="40" />
+                <div class="meta">
+                    <div class="role">{{ x.role }}</div>
+                    <div class="company">
+                        <a *ngIf="x.link; else plain" [href]="x.link" target="_blank" rel="noopener noreferrer">
+                            {{ x.company }}
+                        </a>
+                        <ng-template #plain>{{ x.company }}</ng-template>
+                    </div>
+                </div>
+                <div class="period-chip">
+                    <span class="dot"></span>
+                    <span>{{ x.period }}</span>
+                </div>
+            </div>
+
+            <div class="xp-card__body">
+                <ul class="bullets" *ngIf="x.bullets?.length">
+                    <li *ngFor="let b of x.bullets">{{ b }}</li>
+                </ul>
+
+                <div class="meta-row">
+                    <div class="location" *ngIf="x.location">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+                        </svg>
+                        {{ x.location }}
+                    </div>
+
+                    <div class="tags" *ngIf="x.tags?.length">
+                        <span class="tag" *ngFor="let t of x.tags">{{ t }}</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
